@@ -13,19 +13,31 @@ export class CustomMap {
     }
 
     addVarker(mappadle: IMappable): void {
-        new google.maps.Marker({
+        const marker = new google.maps.Marker({
             map: this.googleMap,
             position: {
                 lat: mappadle.location.lat,
                 lng: mappadle.location.lng
             }
         })
+
+
+        marker.addListener('click', () => {
+            const infoWindow = new google.maps.InfoWindow({
+                content: mappadle.markerContent()
+            });
+
+            infoWindow.open(this.googleMap, marker);
+        });
     }
 }
 
-interface IMappable {
+
+
+export interface IMappable {
     location: {
         lat: number,
         lng: number
     }
+    markerContent(): string;
 }
